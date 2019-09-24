@@ -45,5 +45,11 @@ public class FileHelper {
     
     saveByteArrayToFile(stringBytes, targetFilePath);
   }
+  
+  // Saves a string to a file.
+  public static void SaveStringToFile(String stringToSave, String targetFilePath) {
+	  byte[] stringToBytes = stringToSave.getBytes();
+	  saveByteArrayToFile(stringToBytes, targetFilePath);
+  }
 
 }
