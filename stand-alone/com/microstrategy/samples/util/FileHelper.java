@@ -48,25 +48,8 @@ public class FileHelper {
   
   // Saves a string to a file.
   public static void SaveStringToFile(String stringToSave, String targetFilePath) {
-	  BufferedOutputStream bos = null;
-	  FileOutputStream fos = null;
-	    
-	    try {
-	      fos = new FileOutputStream(targetFilePath);
-	      bos = new BufferedOutputStream(fos);
-	      byte[] stringToBytes = stringToSave.getBytes();
-	      bos.write(stringToBytes);
-	      
-	    } catch (IOException e) {
-	      e.printStackTrace();
-
-	    } finally {
-	      try {
-	        bos.close();
-	      } catch (IOException e) {
-	        e.printStackTrace();
-	      }
-	    }
+	  byte[] stringToBytes = stringToSave.getBytes();
+	  saveByteArrayToFile(stringToBytes, targetFilePath);
   }
 
 }
