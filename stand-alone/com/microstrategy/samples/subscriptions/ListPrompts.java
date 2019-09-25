@@ -6,11 +6,11 @@ import com.microstrategy.samples.sessions.SessionManager;
 import com.microstrategy.web.objects.*;
 import com.microstrategy.webapi.EnumDSSXMLNodeType;
 
-public class ListSubscriptions {
-  private static String DEFAULT_SERVER = "YourServerName";
-  private static String DEFAULT_PROJECT = "xxxxxxxxxxx";
-  private static String DEFAULT_USERNAME = "xxxxxxxx";
-  private static String DEFAULT_PASSWORD = "xxxxxxxxxxxxx";
+public class ListPrompts {
+  private static String DEFAULT_SERVER = "SUP-W-001861";
+  private static String DEFAULT_PROJECT = "MicroStrategy Tutorial";
+  private static String DEFAULT_USERNAME = "Administrator";
+  private static String DEFAULT_PASSWORD = "";
 
   public static void main(String[] args) {
     // TODO Auto-generated method stub
@@ -55,6 +55,7 @@ public class ListSubscriptions {
     return null;
   }
 
+  //Return the first prompted subscription found in the subscriptions SimpleList
   public static WebSubscription getPromptedSubscriptionFromList(SimpleList sl) {
     for (int i = 0; i < sl.size(); i++) {
       WebSubscription ws = (WebSubscription)sl.item(i);
@@ -106,6 +107,7 @@ public class ListSubscriptions {
     return null;
   }
   
+  // Only expression prompts are supported in the scope of this sample
   public static void printAnswersForPrompt(WebPrompt prompt) {
     
     int promptType = prompt.getPromptType();
