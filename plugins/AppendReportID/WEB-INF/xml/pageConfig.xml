@@ -1,0 +1,22 @@
+<framework>
+  <pages>
+    <page name="report">
+      <web-beans>
+        <web-bean name="ncFileSubs">
+          <web-beans>
+            <web-bean event-handler="com.microstrategy.samples.plugins.ReportAppendID" name="ncFileSubs_sb"/>
+          </web-beans>
+        </web-bean>
+      </web-beans>
+    </page>
+    <page name="ncEditFileSubs">
+      <web-beans>
+        <web-bean name="subFrame">
+          <web-beans>
+            <web-bean event-handler="com.microstrategy.samples.plugins.ReportAppendID" name="ncSub"/>
+          </web-beans>
+        </web-bean>
+      </web-beans>
+    </page>
+  </pages>
+</framework>
