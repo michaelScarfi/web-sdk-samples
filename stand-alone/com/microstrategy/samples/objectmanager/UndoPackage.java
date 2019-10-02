@@ -1,4 +1,7 @@
+package com.microstrategy.samples.objectmanager;
 
+import com.microstrategy.samples.sessions.SessionManager;
+import com.microstrategy.samples.util.FileHelper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
