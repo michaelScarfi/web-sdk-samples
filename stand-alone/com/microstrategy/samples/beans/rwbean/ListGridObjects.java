@@ -8,14 +8,10 @@ import com.microstrategy.web.beans.BeanFactory;
 import com.microstrategy.web.beans.RWBean;
 import com.microstrategy.web.beans.WebBeanException;
 import com.microstrategy.web.objects.WebHyperLink;
-import com.microstrategy.web.objects.WebHyperLinks;
 import com.microstrategy.web.objects.WebIServerSession;
 import com.microstrategy.web.objects.WebObjectsException;
-import com.microstrategy.web.objects.WebTemplate;
 import com.microstrategy.web.objects.WebTemplateAttribute;
-import com.microstrategy.web.objects.WebTemplateAttributes;
 import com.microstrategy.web.objects.WebTemplateMetric;
-import com.microstrategy.web.objects.WebTemplateMetrics;
 import com.microstrategy.web.objects.rw.EnumRWExecutionModes;
 import com.microstrategy.web.objects.rw.EnumRWUnitTypes;
 import com.microstrategy.web.objects.rw.RWDefinition;
@@ -43,23 +39,36 @@ public class ListGridObjects {
 
             // The below document instance is opened in design mode
             RWInstance rwi = getDesignDocumentInstance(DOCUMENT_ID, session);
-            RWDefinition rwd = rwi.getDefinition();
+
             // Obtains an array of all grid graphs associated with the requested document using the RWDefinition
-            RWUnitDef[] allGrids = FindAllGrids(rwd);
-            PrintAllMetrics(allGrids);
-            PrintAllAttributes(allGrids);
-            PrintMetricHyperlinks(allGrids);
+            RWDefinition rwd = rwi.getDefinition();
+            RWUnitDef[] allGrids = findAllGrids(rwd);
+
+            // Executes the various methods utilizing the array of grids
+            printAllMetrics(allGrids);
+            printAllAttributes(allGrids);
+            printMetricHyperlinks(allGrids);
         } catch (WebBeanException | WebObjectsException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    // Takes a documentID, RWBean, and a session and provides the instance of the specified document in DESIGN mode
+    /**
+     * Takes a documentID, RWBean, and a session and provides the instance of the specified document in DESIGN mode
+     * 
+     * @param objectID
+     * @param session
+     * @return
+     * @throws WebBeanException
+     */
     public static RWInstance getDesignDocumentInstance(String objectID, WebIServerSession session)
         throws WebBeanException {
+
         // Instantiates RWBean which is the first step in obtaining the RWInstance of this Document
         RWBean rwb = (RWBean) BeanFactory.getInstance().newBean("RWBean");
+
+        // Sets the appropriate parameters including opening the document in design mode
         rwb.setObjectID(objectID);
         rwb.setSessionInfo(session);
         rwb.setExecutionMode(EnumRWExecutionModes.RW_MODE_DESIGN);
@@ -67,80 +76,102 @@ public class ListGridObjects {
         return rwb.getRWInstance();
     }
 
-    // Returns an array of RWUnitDef of type GridGraphs for a specific Document
-    public static RWUnitDef[] FindAllGrids(RWDefinition rwd) {
-        RWUnitDef[] AllGrids = rwd.findUnitsByType(EnumRWUnitTypes.RWUNIT_GRIDGRAPH);
-        return AllGrids;
+    /**
+     * Returns an array of RWUnitDef of type GridGraphs for a specific Document
+     * 
+     * @param rwd
+     * @return
+     */
+    private static RWUnitDef[] findAllGrids(RWDefinition rwd) {
+        RWUnitDef[] allGrids = rwd.findUnitsByType(EnumRWUnitTypes.RWUNIT_GRIDGRAPH);
+        return allGrids;
     }
 
-    // This takes an array of RWUnitDef with type GridGraph and prints out all metrics on the template
-    public static void PrintAllMetrics(RWUnitDef[] allGrids) {
+    /**
+     * This takes an array of RWUnitDef with type GridGraph and prints out all metrics on the template
+     * 
+     * @param allGrids
+     */
+    public static void printAllMetrics(RWUnitDef[] allGrids) {
         System.out.println("Printing all metrics on all grids");
         for (int i = 0; i < allGrids.length; i++) {
             try {
-                RWGridGraphDef grid = (RWGridGraphDef) allGrids[0];
-                WebTemplate gridTemplate = grid.getViewInstance().getTemplate();
-                WebTemplateMetrics metrics = gridTemplate.getTemplateMetrics();
-                Enumeration<WebTemplateMetric> metricsIterator = metrics.elements();
-                while (metricsIterator.hasMoreElements()) {
-                    System.out.println(metricsIterator.nextElement().getName());
+                RWGridGraphDef grid = (RWGridGraphDef) allGrids[i];
+
+                // For a specific grid, obtain the collection of metrics
+                Enumeration<WebTemplateMetric> webTemplateMetrics = grid.getViewInstance().getTemplate().getTemplateMetrics().elements();
+
+                // prints all metrics in the collection
+                while (webTemplateMetrics.hasMoreElements()) {
+                    System.out.println(webTemplateMetrics.nextElement().getName());
                 }
                 System.out.println("EOF");
             } catch (WebObjectsException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
         }
     }
 
-    // This takes an array of RWUnitDef with type GridGraph and prints out all attribute names on the template
-    public static void PrintAllAttributes(RWUnitDef[] allGrids) {
+    /**
+     * This takes an array of RWUnitDef with type GridGraph and prints out all attribute names on the template
+     * 
+     * @param allGrids
+     */
+    public static void printAllAttributes(RWUnitDef[] allGrids) {
         System.out.println("Printing all attributes on all grids");
         for (int i = 0; i < allGrids.length; i++) {
             try {
-                RWGridGraphDef grid = (RWGridGraphDef) allGrids[0];
-                WebTemplate gridTemplate = grid.getViewInstance().getTemplate();
-                WebTemplateAttributes attributes = gridTemplate.getTemplateAttributesCollection();
-                Enumeration<WebTemplateAttribute> allAttributes = attributes.elements();
-                while (allAttributes.hasMoreElements()) {
-                    System.out.println(allAttributes.nextElement().getName());
+                RWGridGraphDef grid = (RWGridGraphDef) allGrids[i];
+
+                // For a specific grid, obtain the collection of attributes
+                Enumeration<WebTemplateAttribute> webTemplateAttributes = (Enumeration<WebTemplateAttribute>) grid.getViewInstance().getTemplate()
+                    .getTemplateAttributesCollection().elements();
+
+                // Prints every attribute in the collection
+                while (webTemplateAttributes.hasMoreElements()) {
+                    System.out.println(webTemplateAttributes.nextElement().getName());
                 }
                 System.out.println("EOF");
             } catch (WebObjectsException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
         }
     }
 
-    // This takes an array of RWUnitDef with type GridGraph and prints out all HyperLinks associated for each metric on the template
-    public static void PrintMetricHyperlinks(RWUnitDef[] allGrids) {
+    /**
+     * This takes an array of RWUnitDef with type GridGraph and prints out all HyperLinks associated for each metric on the template
+     * 
+     * @param allGrids
+     */
+    public static void printMetricHyperlinks(RWUnitDef[] allGrids) {
         System.out.println("Printing all hyperlinks associated with metrics on all grids");
-        for (int i = 0; i < allGrids.length; i++) {
-            try {
-                RWGridGraphDef grid = (RWGridGraphDef) allGrids[0];
-                WebTemplate gridTemplate = grid.getViewInstance().getTemplate();
-                WebTemplateMetrics metrics = gridTemplate.getTemplateMetrics();
-                // The below workflow goes iterates through every HyperLink associated to every metric on every GridGraph in the entire document
-                Enumeration<WebTemplateMetric> metricsIterator = metrics.elements();
-                while (metricsIterator.hasMoreElements()) {
-                    WebTemplateMetric metric = metricsIterator.nextElement();
-                    // Each metric may have more than one hyperlink
-                    WebHyperLinks links = metric.getHyperLinks();
-                    // This iterates through every possible hyperlink on a specific metric
-                    Iterator<WebHyperLink> HyperLinksOnMetric = links.elements();
+        try {
+            for (int i = 0; i < allGrids.length; i++) {
+                // For this specific grid
+                RWGridGraphDef grid = (RWGridGraphDef) allGrids[i];
+
+                // For a specific grid, obtain the collection of metrics
+                Enumeration<WebTemplateMetric> webTemplateMetrics = grid.getViewInstance().getTemplate().getTemplateMetrics().elements();
+
+                // Iterates through the collection of metrics
+                while (webTemplateMetrics.hasMoreElements()) {
+                    WebTemplateMetric metric = webTemplateMetrics.nextElement();
+
+                    // Obtains a collection of HyperLinks associated with a specific metric
+                    Iterator<WebHyperLink> HyperLinksOnMetric = metric.getHyperLinks().elements();
+
+                    // for the current metric in the collection, prints all HyperLinks associated with it
                     while (HyperLinksOnMetric.hasNext()) {
                         System.out.println(HyperLinksOnMetric.next().getDisplayText());
                     }
                 }
                 System.out.println("EOF");
-            } catch (WebObjectsException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
+        } catch (WebObjectsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-
     }
 }
