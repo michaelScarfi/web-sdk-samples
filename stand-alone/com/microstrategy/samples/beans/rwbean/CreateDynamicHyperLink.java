@@ -30,6 +30,7 @@ import com.microstrategy.web.objects.rw.RWUnitDef;
 import com.microstrategy.webapi.EnumDSSXMLDocSaveAsFlags;
 import com.microstrategy.webapi.EnumDSSXMLObjectFlags;
 import com.microstrategy.webapi.EnumDSSXMLObjectTypes;
+import com.microstrategy.webapi.EnumDSSXMLStatus;
 
 public class CreateDynamicHyperLink {
 
@@ -85,7 +86,7 @@ public class CreateDynamicHyperLink {
      */
     public static void writeDynamicMetricLinksForPromptedDocument(WebIServerSession session, RWInstance rwi, RWBean rwb, String documentID,
         String documentToLinkTo, String gridName)
-            throws WebBeanException, WebObjectsException {
+        throws WebBeanException, WebObjectsException {
         System.out.println("Document status: " + rwi.pollStatusOnly());
 
         Enumeration<WebTemplateMetric> webTemplateMetrics = obtainMetrics(rwi, gridName);
@@ -147,9 +148,9 @@ public class CreateDynamicHyperLink {
             WebTemplateMetric metric = webTemplateMetrics.nextElement();
             WebHyperLinks links = metric.getHyperLinks();
             // If there are no HyperLinks on this metric, create one
-            if (links.size() <= 0)
+            if (links.size() <= 0) {
                 links.add();
-
+            }
             // Modify only the first HyperLink for the current selected metric
             WebHyperLink link = links.get(0);
             WebObjectSource wos = session.getFactory().getObjectSource();
@@ -272,7 +273,7 @@ public class CreateDynamicHyperLink {
             RWInstance newInst = rwi.getRWManipulator().applyChanges();
             newInst.setSaveAsFlags(EnumDSSXMLDocSaveAsFlags.DssXmlDocSaveAsOverwrite);
             int status = newInst.getStatus();
-            while (status != 1) {
+            while (status != EnumDSSXMLStatus.DssXmlStatusResult) {
                 status = newInst.pollStatus();
             }
             System.out.println("Current Status= " + status);
