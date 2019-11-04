@@ -25,11 +25,15 @@ public class CreateScheduleEvent {
         }
     }
     
-    // Create a new event and save it in the events folder 
-    // In Developer, find this in Administration -> Configuration Managers -> Events
+    /**
+     * Create a new event and save it in the events folder 
+     * In Developer, find this in Administration -> Configuration Managers -> Events
+     * @param serverSession
+     * @throws WebObjectsException
+     * @throws IllegalArgumentException
+     */
     public static void saveNewScheduleEvent(WebIServerSession serverSession) throws WebObjectsException, IllegalArgumentException {
-        WebObjectsFactory factory = serverSession.getFactory();
-        WebObjectSource wos = factory.getObjectSource();
+        WebObjectSource wos = serverSession.getFactory().getObjectSource();
         
         String eventsFolderId = wos.getFolderID(EnumDSSXMLFolderNames.DssXmlFolderNameEvents);
         WebFolder eventsFolder = (WebFolder) wos.getObject(eventsFolderId, EnumDSSXMLObjectTypes.DssXmlTypeFolder, true);
