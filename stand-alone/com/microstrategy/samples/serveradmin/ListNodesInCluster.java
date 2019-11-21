@@ -53,8 +53,9 @@ public class ListNodesInCluster {
      * @param webClusters
      */
     private static void printNodes(Enumeration<WebClusterNode> webClusters) {
+        int nodes = 0;
         while (webClusters.hasMoreElements()) {
-            System.out.println(webClusters.nextElement().getNodeName());
+            System.out.println("Node " + ++nodes + " in cluster: " + webClusters.nextElement().getNodeName());
 
         }
     }
