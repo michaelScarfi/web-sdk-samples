@@ -39,6 +39,8 @@ public class ListCaches {
             int cacheCount = cachesPerProject.getCount();
             System.out.println("Total number of caches: " + cacheCount);
 
+            CacheManipulator cm = cacheSource.getManipulator();
+
             // Caches are group on project level, so get the cache collection for each project
             for (int j = 0; j < cachesPerProject.size(); j++) {
                 Caches projectCache = cachesPerProject.get(j);
@@ -47,14 +49,32 @@ public class ListCaches {
                 // Then we can loop through each cache on the project level
                 for (int i = 0; i < projectCache.getCount(); i++) {
                     Cache cache = projectCache.get(i);
-                    System.out.println("---> " + (i + 1) + ") name: " + cache.getCacheSourceName());
+                    String cacheName = cache.getCacheSourceName();
+                    
+                    
+                    if (cacheName.contains("simple report")) {
+                        System.out.println("---> DELETING " + (i + 1) + ") name: " + cacheName);
+                        queueDeleteCacheWithId(cm, projectCache.getProjectDSSID(), cache.getID());
+                    } else {
+                        System.out.println("---> " + (i + 1) + ") name: " + cacheName);
+                    }
                 }
             }
             
-        } catch (WebObjectsAdminException e) {
+            cm.submit();
+            
+        } catch (WebObjectsAdminException | MonitorManipulationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    
+    public static void queueDeleteCacheWithId(CacheManipulator cacheManiplator, String projectId, String cacheId) {
+        MonitorFilter filter = cacheManiplator.newMonitorFilter();
+        filter.add(EnumDSSXMLCacheInfo.DssXmlCacheInfoProjectGuid, EnumDSSXMLMonitorFilterOperator.DssXmlEqual, projectId);
+        filter.add(EnumDSSXMLCacheInfo.DssXmlCacheInfoId, EnumDSSXMLMonitorFilterOperator.DssXmlEqual, cacheId);
+        
+        cacheManiplator.addManipualtionTask(projectId, EnumDSSXMLCacheAdminAction.DssXmlDeleteCache, filter);
     }
 
 }
