@@ -22,7 +22,7 @@ public class ListNodesInCluster {
         // Create our I-Server Session
         WebIServerSession session = SessionManager.getSessionWithDetails(intelligenceServerName, projectName, microstrategyUsername,
             microstrategyPassword);
-        listNodes(session);
+        listNodesInSessionCluster(session);
     }
 
 
@@ -31,7 +31,7 @@ public class ListNodesInCluster {
      * 
      * @param session
      */
-    private static void accessNodes(WebIServerSession session) {
+    private static void listNodesInSessionCluster(WebIServerSession session) {
         try {
             WebClusters webClusters = session.getFactory().getInstance().getClusterAdmin().getClusters();
             if (webClusters.size() > 0) {
@@ -53,8 +53,9 @@ public class ListNodesInCluster {
      * @param webClusters
      */
     private static void printNodes(Enumeration<WebClusterNode> webClusters) {
+        int nodes = 0;
         while (webClusters.hasMoreElements()) {
-            System.out.println(webClusters.nextElement().getNodeName());
+            System.out.println("Node " + ++nodes + " in cluster: " + webClusters.nextElement().getNodeName());
 
         }
     }
