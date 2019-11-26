@@ -1,4 +1,4 @@
-package com.microstrategy.samples.sessions;
+package com.microstrategy.samples.users;
 
 import com.microstrategy.samples.sessions.SessionManager;
 import com.microstrategy.web.beans.BeanFactory;
