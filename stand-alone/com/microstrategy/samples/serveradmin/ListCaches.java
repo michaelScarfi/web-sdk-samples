@@ -25,22 +25,37 @@ public class ListCaches {
 
     /**
      * List all caches, broken down per project. Based on KB44043
+     * Note: caches are separated by object type into separate monitor types.
      * @param session
      */
     private static void listCaches(WebIServerSession session) {
-        try {
-            WebObjectsFactory objectFactory = session.getFactory();
+        WebObjectsFactory objectFactory = session.getFactory();
             
-            CacheSource cacheSource = (CacheSource) objectFactory.getMonitorSource(EnumWebMonitorType.WebMonitorTypeCache);
-            cacheSource.setLevel(EnumDSSXMLLevelFlags.DssXmlDetailLevel);
+        CacheSource reportCacheSource = (CacheSource) objectFactory.getMonitorSource(EnumWebMonitorType.WebMonitorTypeCache);
+        reportCacheSource.setLevel(EnumDSSXMLLevelFlags.DssXmlDetailLevel);        
+        
+        System.out.println("Looping report caches: ");
+        loopCachesForSource(reportCacheSource);
+        System.out.println("End of report caches");
+        
+        CacheSource rwCacheSource = (CacheSource) objectFactory.getMonitorSource(EnumWebMonitorType.WebMonitorTypeRWDCache);
+        rwCacheSource.setLevel(EnumDSSXMLLevelFlags.DssXmlDetailLevel);   
+        
+        System.out.println("Looping document caches: ");
+        loopCachesForSource(rwCacheSource);
+        System.out.println("End of document caches");
 
+    }
+    
+    private static void loopCachesForSource(CacheSource cacheSource) {
+        try {
             CacheResults cachesPerProject = cacheSource.getCaches();
             
             int cacheCount = cachesPerProject.getCount();
             System.out.println("Total number of caches: " + cacheCount);
-
+    
             CacheManipulator cm = cacheSource.getManipulator();
-
+    
             // Caches are group on project level, so get the cache collection for each project
             for (int j = 0; j < cachesPerProject.size(); j++) {
                 Caches projectCache = cachesPerProject.get(j);
@@ -51,7 +66,7 @@ public class ListCaches {
                     Cache cache = projectCache.get(i);
                     String cacheName = cache.getCacheSourceName();
                     
-                    
+                    // Example for deleting a report cache using ID
                     if (cacheName.contains("simple report")) {
                         System.out.println("---> DELETING " + (i + 1) + ") name: " + cacheName);
                         queueDeleteCacheWithId(cm, projectCache.getProjectDSSID(), cache.getID());
@@ -61,12 +76,13 @@ public class ListCaches {
                 }
             }
             
-            cm.submit();
-            
+            cm.submit(); 
         } catch (WebObjectsAdminException | MonitorManipulationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+        
     }
     
     public static void queueDeleteCacheWithId(CacheManipulator cacheManiplator, String projectId, String cacheId) {
