@@ -29,7 +29,8 @@ public class ExportDocumentLayout {
     //Document ID
     String documentID = "C0AEF3624E8FE0A8E5CBC09ACBF51FA2";
     
-    String pathToSavePDFFile = "/Users/mpastrana/trabajos/dev/eprcode/output-trash/layout_exported.pdf";
+    //Path to save pdf file needs to be provided via "pathToSavePDFFile" var.
+    String pathToSavePDFFile = "< path/to/save/pdf/file >";
     
     //Layout to export.
     String layoutName = "Layout 01";
@@ -47,7 +48,7 @@ public class ExportDocumentLayout {
   }
 	
 	
-  public static byte[] exportDocumentLayoutToPDF( String documentID, WebIServerSession session, String layoutName ) throws WebObjectsException {
+  public static byte[] exportDocumentLayoutToPDF(String documentID, WebIServerSession session, String layoutName ) throws WebObjectsException {
 	System.out.println("Exporting layout.");
 	
 	RWBean rwb = (RWBean)BeanFactory.getInstance().newBean("RWBean");
@@ -65,10 +66,6 @@ public class ExportDocumentLayout {
 		rwInstance = rwb.getRWInstance();
 
 		RWDefinition rwDefinition = rwInstance.getDefinition();
-		
-		System.out.println("Document Name: " + rwInstance.getDefinition().getName());
-		System.out.println("Number of layouts: " + rwDefinition.getLayoutCount());
-		System.out.println("Layout name to export: "  + layoutName);
 
 		//Get layout key from layout name.
 		layoutToExportKey = getLayoutKeyFromName(rwDefinition, layoutName);
@@ -91,7 +88,6 @@ public class ExportDocumentLayout {
 		e.printStackTrace();
 	}
 	
-    
     
     //return rwInstance.getExportData();
     return rwInstanceToExport.getExportData();
