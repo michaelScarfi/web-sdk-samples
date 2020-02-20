@@ -1,8 +1,13 @@
+//Mark: - Variables to Change
+
 var title = "Session Timeout";
 var message = "The current session has ended.";
 var errorButtonText = "Go to Main Page";
 var newDocumentToRedirectTo = "B546031C492F99BEAB6BCCB91635B608";
 var authType = 8;
+
+
+//MARK: - Main Function
 
 mstrmojo.OIVMPage.prototype.onError_ootb = mstrmojo.OIVMPage.onError;
 mstrmojo.OIVMPage.prototype.onError = function(passedError) {
@@ -39,6 +44,19 @@ mstrmojo.OIVMPage.prototype.onError = function(passedError) {
   }
 }
 
+
+//MARK: - Helper Functions
+
+function getIsRWB() {
+  return (mstrApp.docModel && mstrApp.docModel.bs) ||
+  (mstrApp.rootCtrl && mstrApp.rootCtrl.docCtrl &&
+    mstrApp.rootCtrl.docCtrl.model && mstrApp.rootCtrl.docCtrl.model.bs) ||
+  (mstrApp.docModelData && mstrApp.docModelData.bs);
+}
+
+
+//Mark: - Custom Button Functions
+
 //Redirect to new document from error message
 function redirectToNewPage() {
     mstrmojo.form.send({
@@ -57,12 +75,8 @@ function refreshPage() {
       evt: 5005,
       src: mstrApp.name + "." + mstrApp.pageName + ".5005"
     },
-    isRWB = (mstrApp.docModel && mstrApp.docModel.bs) ||
-    (mstrApp.rootCtrl && mstrApp.rootCtrl.docCtrl &&
-      mstrApp.rootCtrl.docCtrl.model && mstrApp.rootCtrl.docCtrl.model.bs) ||
-    (mstrApp.docModelData && mstrApp.docModelData.bs);
-  if (isRWB) {
-    newEvent.rwb = isRWB;
+  if (getIsRWB()) {
+    newEvent.rwb = getIsRWB();
   }
   mstrmojo.form.send(newEvent);
 }
