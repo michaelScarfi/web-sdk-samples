@@ -67,7 +67,7 @@ public class ShortcutDescChange {
 	}
 	
 	
-	 /**
+	/**
      * Takes a WebObjectSource object, WebShortcut Object and String desc and changes the Destription of the WebShortcut object to the value of desc
      * 
      * @param objectSource Object of type WebObjectSource
@@ -83,11 +83,11 @@ public class ShortcutDescChange {
 	    objectSource.save(shortcut);
 	}
 
-	 /**
-     * Creates, populates, and returns an object of type WebShortcut
-     * 
-     * @param objectSource Object of type WebObjectSource
-     * @param id String of the shortcut objects ID
+	/**
+	 * Creates, populates, and returns an object of type WebShortcut
+	 * 
+	 * @param objectSource Object of type WebObjectSource
+	 * @param id String of the shortcut objects ID
      * @throws WebObjectsException
      */
 	private static WebShortcut getWebShortcut(WebObjectSource objectSource, String id) throws WebObjectsException{
