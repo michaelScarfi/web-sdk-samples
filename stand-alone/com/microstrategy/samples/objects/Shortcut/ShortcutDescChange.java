@@ -88,8 +88,8 @@ public class ShortcutDescChange {
 	 * 
 	 * @param objectSource Object of type WebObjectSource
 	 * @param id String of the shortcut objects ID
-     * @throws WebObjectsException
-     */
+	 * @throws WebObjectsException
+	 */
 	private static WebShortcut getWebShortcut(WebObjectSource objectSource, String id) throws WebObjectsException{
 		WebShortcut shortcut = (WebShortcut)objectSource.getObject(id,EnumDSSXMLObjectTypes.DssXmlTypeShortcut); 
 		shortcut.populate();
