@@ -23,25 +23,56 @@ mstrmojo.OIVMPage.prototype.onError = function(passedError) {
       case -2147467618:
         passedError.title = title;
         passedError.msg = message;
-        passedError.btns = [newButton(errorButtonText, function() {
-            redirectToNewPage();
-            //refreshPage();
-        }, errorValue), newButton(mstrmojo.desc(221, "Cancel"), function() {
-          mstrmojo.form.send({
-            evt: 3010,
-            src: mstrApp.name
-          });
-        }, errorValue)];
+        passedError.btns = [
+          newButton(errorButtonText, okButtonCallback, errorValue),
+          newButton(mstrmojo.desc(221, "Cancel"), cancelButtonCallback, errorValue)
+        ];
         break;
       default:
-        passedError.btns = [newButton(mstrmojo.desc(212, "Continue"), function() {
-          mstrmojo.form.send({
-            evt: 3026,
-            src: mstrApp.name + "." + mstrApp.pageName + ".3026"
-          });
-        }, errorValue)];
+        passedError.btns = [
+          newButton(mstrmojo.desc(212, "Continue"), continueButtonCallback, errorValue)
+        ];
     }
   }
+}
+
+
+//MARK: - Callbacks
+
+var okButtonCallback = function() {
+  redirectToNewPage();
+  //refreshPage();
+}
+
+var cancelButtonCallback = function() {
+  dismissPopup();
+}
+
+var continueButtonCallback = function() {
+  continueAction();
+}
+
+
+//Mark: - Button Functions
+
+//Redirect to new document from error message
+function redirectToNewPage() {
+  sendForm(2048001, mstrApp.name + "." + mstrApp.pageName + ".2048001", newDocumentToRedirectTo);
+}
+
+//Triger refresh event for after redirect action. You can also check the auth mode and only trigger it for this - mstrmojo.EnumAuthenticationModes
+function refreshPage() {
+  sendForm(5005, mstrApp.name + "." + mstrApp.pageName + ".5005");
+}
+
+//Called by cancel button to dismiss the popup
+function dismissPopup() {
+  sendForm(3010, mstrApp.name);
+}
+
+//Called by default for all error messages
+function continueAction() {
+  sendForm(3026, mstrApp.name + "." + mstrApp.pageName + ".3026")
 }
 
 
@@ -49,34 +80,39 @@ mstrmojo.OIVMPage.prototype.onError = function(passedError) {
 
 function getIsRWB() {
   return (mstrApp.docModel && mstrApp.docModel.bs) ||
-  (mstrApp.rootCtrl && mstrApp.rootCtrl.docCtrl &&
-    mstrApp.rootCtrl.docCtrl.model && mstrApp.rootCtrl.docCtrl.model.bs) ||
-  (mstrApp.docModelData && mstrApp.docModelData.bs);
+    (mstrApp.rootCtrl && mstrApp.rootCtrl.docCtrl &&
+      mstrApp.rootCtrl.docCtrl.model && mstrApp.rootCtrl.docCtrl.model.bs) ||
+    (mstrApp.docModelData && mstrApp.docModelData.bs);
 }
 
-
-//Mark: - Custom Button Functions
-
-//Redirect to new document from error message
-function redirectToNewPage() {
-    mstrmojo.form.send({
-      evt: 2048001,
-      src: mstrApp.name + "." + mstrApp.pageName + ".2048001",
-      documentID: newDocumentToRedirectTo,
-      currentViewMedia: 1,
-      visMode: 0,
-      connmode: authType
-    });
-}
-
-//Triger refresh event for after redirect action. You can also check the auth mode and only trigger it for this - mstrmojo.EnumAuthenticationModes
-function refreshPage() {
+//Sends action to mstrmojo based on the provided event and source
+function sendForm(evt, src) {
   var newEvent = {
-      evt: 5005,
-      src: mstrApp.name + "." + mstrApp.pageName + ".5005"
-    },
+    evt: evt,
+    src: src
+  };
+
   if (getIsRWB()) {
     newEvent.rwb = getIsRWB();
   }
+
+  mstrmojo.form.send(newEvent);
+}
+
+//Overloaded function that takes a new document ID as a parameter to redirect user
+function sendForm(evt, src, redirectDocumentID) {
+  var newEvent = {
+    evt: evt,
+    src: src,
+    documentID: redirectDocumentID,
+    currentViewMedia: 1,
+    visMode: 0,
+    connmode: authType
+  };
+
+  if (getIsRWB()) {
+    newEvent.rwb = getIsRWB();
+  }
+
   mstrmojo.form.send(newEvent);
 }
