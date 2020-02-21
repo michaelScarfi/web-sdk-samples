@@ -22,7 +22,7 @@ import com.microstrategy.webapi.EnumDSSXMLObjectTypes;
 
 public class ShortcutDescChange {
 	
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		
 		// Connectivity for the intelligence server
 	    final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
