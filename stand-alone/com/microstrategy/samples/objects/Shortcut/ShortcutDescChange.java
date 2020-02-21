@@ -1,3 +1,5 @@
+package com.microstrategy.samples.objects.Shortcut;
+
 /*
  * SDK sample
  * Purpose: to change the description field of a shortcut object
