@@ -1,4 +1,4 @@
-package com.microstrategy.samples.objects.Shortcut;
+package com.microstrategy.samples.objects.shortcut;
 
 /*
  * SDK sample
@@ -55,7 +55,7 @@ public class ShortcutDescChange {
 			
 			//Print the new description and change the shortcut's description to that value.
 	    		System.out.println("Setting new Description to: " + NEW_DESC);
-	    		setShorDesc(WEB_OBJECT_SOURCE, SHORTCUT, NEW_DESC);
+	    		setShortDesc(WEB_OBJECT_SOURCE, SHORTCUT, NEW_DESC);
 			
 			//This confirms the change was saved by grabbing the shorcut again from the metadata
 			final WebShortcut TEST_SHORTCUT = getWebShortcut(WEB_OBJECT_SOURCE, SHORTCUT_ID);
@@ -75,7 +75,7 @@ public class ShortcutDescChange {
 	 * @param desc String containing the new Description
      	 * @throws WebObjectsException
      	 */
-	private static void setShorDesc(WebObjectSource objectSource, WebShortcut shortcut, String desc) throws WebObjectsException {
+	private static void setShortDesc(WebObjectSource objectSource, WebShortcut shortcut, String desc) throws WebObjectsException {
 	    //Change Description to value of String desc
 	    shortcut.setDescription(desc);
 	    
