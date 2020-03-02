@@ -1,4 +1,4 @@
-package com.microstrategy.samples.objects.Shortcut;
+package com.microstrategy.samples.objects.shortcut;
 
 /*
  * SDK sample
@@ -25,18 +25,18 @@ public class ShortcutDescChange {
 	public static void main(String[] args) {
 		
 		// Connectivity for the intelligence server
-	    final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
-	    final String PROJECT_NAME = "MicroStrategy Tutorial";
-	    final String MICROSTRATEGY_USERNAME = "Administrator";
-	    final String MICROSTRATEGY_PASSWORD = "";
+	    	final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
+	    	final String PROJECT_NAME = "MicroStrategy Tutorial";
+	    	final String MICROSTRATEGY_USERNAME = "Administrator";
+	    	final String MICROSTRATEGY_PASSWORD = "";
 	    
-	    // Shortcut ID
-	    final String SHORTCUT_ID = "3B32AEBA4A38426E6E0A588F5C938C5B";
+	    	// Shortcut ID
+	    	final String SHORTCUT_ID = "3B32AEBA4A38426E6E0A588F5C938C5B";
 	   
 		// New shortcut description
 		final String NEW_DESC = "our new description!";
 		
-	    // Create our I-Server Session
+	   	// Create our I-Server Session
 		final WebIServerSession SESSION = SessionManager.getSessionWithDetails(INTELLIGENCE_SERVER_NAME, PROJECT_NAME, MICROSTRATEGY_USERNAME, MICROSTRATEGY_PASSWORD);
 		
 		// Create WebObjectSource
@@ -44,38 +44,38 @@ public class ShortcutDescChange {
 	    
 	   	
 	    
-	    //Reads current description, changes description, and reads new description.
-	    try {
+	    	//Reads current description, changes description, and reads new description.
+	    	try {
 
 			//Load and populate the shortcut object
 			final WebShortcut SHORTCUT = getWebShortcut(WEB_OBJECT_SOURCE, SHORTCUT_ID);
 			
 			//Print the current value of the shortcuts description
-	    	System.out.println("Previous Description: " + SHORTCUT.getDescription());
+	    		System.out.println("Previous Description: " + SHORTCUT.getDescription());
 			
 			//Print the new description and change the shortcut's description to that value.
-	    	System.out.println("Setting new Description to: " + NEW_DESC);
-	    	setShorDesc(WEB_OBJECT_SOURCE, SHORTCUT, NEW_DESC);
+	    		System.out.println("Setting new Description to: " + NEW_DESC);
+	    		setShortDesc(WEB_OBJECT_SOURCE, SHORTCUT, NEW_DESC);
 			
 			//This confirms the change was saved by grabbing the shorcut again from the metadata
 			final WebShortcut TEST_SHORTCUT = getWebShortcut(WEB_OBJECT_SOURCE, SHORTCUT_ID);
-	    	System.out.println("New Description: " + TEST_SHORTCUT.getDescription());
-	    } catch (Exception e) {
-	    	System.out.println(e.getMessage());
-	    }
+	    		System.out.println("New Description: " + TEST_SHORTCUT.getDescription());
+	    	} catch (Exception e) {
+	    		System.out.println(e.getMessage());
+	   	}
 	  
 	}
 	
 	
 	/**
-     * Takes a WebObjectSource object, WebShortcut Object and String desc and changes the Destription of the WebShortcut object to the value of desc
-     * 
-     * @param objectSource Object of type WebObjectSource
-     * @param shortcut Object of type WebShortcut
+     	 * Takes a WebObjectSource object, WebShortcut Object and String desc and changes the Destription of the WebShortcut object to the value of desc
+     	 * 
+     	 * @param objectSource Object of type WebObjectSource
+     	 * @param shortcut Object of type WebShortcut
 	 * @param desc String containing the new Description
-     * @throws WebObjectsException
-     */
-	private static void setShorDesc(WebObjectSource objectSource, WebShortcut shortcut, String desc) throws WebObjectsException {
+     	 * @throws WebObjectsException
+     	 */
+	private static void setShortDesc(WebObjectSource objectSource, WebShortcut shortcut, String desc) throws WebObjectsException {
 	    //Change Description to value of String desc
 	    shortcut.setDescription(desc);
 	    
