@@ -1,0 +1,18 @@
+.mojo-theme-light .mstrmojo-ui-Pulldown .mstrmojo-PopupList {
+	background-color: #FFFFFF;
+}
+
+.mstrmojo-OIVMPage.mojo-theme-light .mstrmojo-ui-Pulldown .mstrmojo-ui-Pulldown-text.express {
+	background-color: #FFFFFF;
+	background-image: none;
+}
+
+.mojo-theme-light .mstrmojo-ui-Pulldown .mstrmojo-PopupList .item.selected {
+	background-color: #98b1f7f5;
+}
+
+.xtab-td.xtabSel {
+	background-color: #83ca4d !important;
+	color: #e60a0a;
+	opacity: 0.8;
+}
