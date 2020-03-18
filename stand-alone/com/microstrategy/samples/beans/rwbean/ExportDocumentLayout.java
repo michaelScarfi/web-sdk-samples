@@ -18,7 +18,7 @@ public class ExportDocumentLayout {
 
   public static void main(String[] args) {
 	// Connectivity for the intelligence server
-    String intelligenceServerName = "10.23.5.242";
+    String intelligenceServerName = "10.23.5.32";
     String projectName = "MicroStrategy Tutorial";
     String microstrategyUsername = "Administrator";
     String microstrategyPassword = "";
@@ -27,7 +27,7 @@ public class ExportDocumentLayout {
     WebIServerSession session = SessionManager.getSessionWithDetails(intelligenceServerName, projectName, microstrategyUsername, microstrategyPassword);
     
     //Document ID
-    String documentID = "C0AEF3624E8FE0A8E5CBC09ACBF51FA2";
+    String documentID = "6FB9F99C4FCF116AC88C8F927F15D2CC";
     
     //Path to save pdf file needs to be provided via "pathToSavePDFFile" var.
     String pathToSavePDFFile = "< path/to/save/pdf/file >";
@@ -99,13 +99,14 @@ public class ExportDocumentLayout {
 	String layoutKey = null;
 	String iterationName = null;
 	int layoutIteration = 0;
+	int numberOfLayouts = rwDefinition.getLayoutCount();
 	
 	do {
 		iterationName = rwDefinition.getLayout(layoutIteration).getName();
 		layoutKey = rwDefinition.getLayout(layoutIteration).getKey();
 		layoutIteration++;
 	}
-	while( !(layoutName.equals(iterationName)));
+	while( !(layoutName.equals(iterationName)) && layoutIteration < numberOfLayouts);
 	
 	return layoutKey;
   }
