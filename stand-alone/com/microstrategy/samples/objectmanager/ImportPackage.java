@@ -28,9 +28,8 @@ public class ImportPackage {
         // Please update this to the location of the package you would like to load into MicroStrategy
         String myPackagePath = "C:\\Users\\ddechent\\Documents\\MMPTest\\RESTAPIPackage.mmp";
 
-        File myPackage = new File(myPackagePath);
         WebSourceManipulator wsm = wof.getObjectSource().getSourceManipulator();
-        importPackage(wsm, myPackage);
+        importPackage(wsm, myPackagePath);
 
     }
 
@@ -40,9 +39,10 @@ public class ImportPackage {
      * @param wsm
      * @param myPackagePath
      */
-    public static void importPackage(WebSourceManipulator wsm, File myPackagePath) {
+    public static void importPackage(WebSourceManipulator wsm, String absolutePathToFile) {
         try {
             System.out.println("Opening File and importing the package");
+            File myPackagePath = new File(absolutePathToFile);
             FileInputStream fis = new FileInputStream(myPackagePath);
             wsm.applyDeltaPackage(fis, myPackagePath.length());
             wsm.invoke();
