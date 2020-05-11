@@ -24,15 +24,15 @@ public class UseExistingSession {
 
             // check the status of the existing session as a baseline
             System.out.println("Checking session information of original WebIServerSession object");
-            CheckSessionStatus(existingSession);
+            checkSessionStatus(existingSession);
             System.out.println("-------------");
 
             System.out.println("Setting original Session ID to new session");
             String existingSessionID = existingSession.getSessionID();
-            WebIServerSession newSession = RestoreSessionID(existingSessionID);
+            WebIServerSession newSession = restoreSessionID(existingSessionID);
 
             // validate the session has been duplicated / updated
-            CheckSessionStatus(newSession);
+            checkSessionStatus(newSession);
             System.out.println("-------------");
       
             // Restore Session
@@ -40,9 +40,9 @@ public class UseExistingSession {
             String existingSessionState = existingSession.saveState();
             
             // Restoring the original Session using sessionState, which is commonly utilized in ESMs and can also be used in URL API, Task API, etc.
-            WebIServerSession restoredSession = RestoreSessionState(existingSessionState);
+            WebIServerSession restoredSession = restoreSessionState(existingSessionState);
             System.out.println("Checking status of restored session");
-            CheckSessionStatus(restoredSession);
+            checkSessionStatus(restoredSession);
 
             System.out.println("EOF");
         } catch (WebObjectsException e) {
@@ -56,7 +56,7 @@ public class UseExistingSession {
      * 
      * @param session
      */
-    public static void CheckSessionStatus(WebIServerSession session) {
+    public static void checkSessionStatus(WebIServerSession session) {
         try {
             System.out.println("Session ID: " + session.getSessionID());
             boolean isAlive = session.isAlive();
@@ -78,7 +78,7 @@ public class UseExistingSession {
      * @param sessionID
      * @return
      */
-    public static WebIServerSession RestoreSessionID(String sessionID) {
+    public static WebIServerSession restoreSessionID(String sessionID) {
         factory = WebObjectsFactory.getInstance();
         WebIServerSession newSession = factory.getIServerSession();
         newSession.setSessionID(sessionID);
@@ -91,7 +91,7 @@ public class UseExistingSession {
      * @param sessionState
      * @return
      */
-    public static WebIServerSession RestoreSessionState(String sessionState) {
+    public static WebIServerSession restoreSessionState(String sessionState) {
         // https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/projects/WebSDK/Content/topics/sso/SSO_SSOSample_ESMCodeExpl.htm
         WebIServerSession restoredSession = WebObjectsFactory.getInstance().getIServerSession();
         restoredSession.restoreState(sessionState);
