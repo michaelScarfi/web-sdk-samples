@@ -6,7 +6,7 @@ import com.microstrategy.web.objects.WebObjectsFactory;
 
 public class UseExistingSession {
     private static String DEFAULT_SERVER = "APS-TSIEBLER-VM";
-    private static String DEFAULT_PROJECT = "MicroStrategy Tutorial";
+    private static String DEFAULT_PROJECT = "Human Resources Analysis Module";
     private static String DEFAULT_USERNAME = "Administrator";
     private static String DEFAULT_PASSWORD = "";
     private static WebObjectsFactory factory = null;
@@ -29,7 +29,7 @@ public class UseExistingSession {
 
             System.out.println("Setting original Session ID to new session");
             String existingSessionID = existingSession.getSessionID();
-            WebIServerSession newSession = CreateDuplicateSession(existingSessionID);
+            WebIServerSession newSession = RestoreSessionID(existingSessionID);
 
             // validate the session has been duplicated / updated
             CheckSessionStatus(newSession);
@@ -40,7 +40,7 @@ public class UseExistingSession {
             String existingSessionState = existingSession.saveState();
             
             // Restoring the original Session using sessionState, which is commonly utilized in ESMs and can also be used in URL API, Task API, etc.
-            WebIServerSession restoredSession = RestoreSession(existingSessionState);
+            WebIServerSession restoredSession = RestoreSessionState(existingSessionState);
             System.out.println("Checking status of restored session");
             CheckSessionStatus(restoredSession);
 
@@ -78,7 +78,7 @@ public class UseExistingSession {
      * @param sessionID
      * @return
      */
-    public static WebIServerSession CreateDuplicateSession(String sessionID) {
+    public static WebIServerSession RestoreSessionID(String sessionID) {
         factory = WebObjectsFactory.getInstance();
         WebIServerSession newSession = factory.getIServerSession();
         newSession.setSessionID(sessionID);
@@ -91,7 +91,7 @@ public class UseExistingSession {
      * @param sessionState
      * @return
      */
-    public static WebIServerSession RestoreSession(String sessionState) {
+    public static WebIServerSession RestoreSessionState(String sessionState) {
         // https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/projects/WebSDK/Content/topics/sso/SSO_SSOSample_ESMCodeExpl.htm
         WebIServerSession restoredSession = WebObjectsFactory.getInstance().getIServerSession();
         restoredSession.restoreState(sessionState);
