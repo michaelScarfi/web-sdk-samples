@@ -34,11 +34,11 @@ public class UseExistingSession {
             // validate the session has been duplicated / updated
             checkSessionStatus(newSession);
             System.out.println("-------------");
-      
+
             // Restore Session
             System.out.println("Restoring the original session into a WebIServerSession object using sessionState");
             String existingSessionState = existingSession.saveState();
-            
+
             // Restoring the original Session using sessionState, which is commonly utilized in ESMs and can also be used in URL API, Task API, etc.
             WebIServerSession restoredSession = restoreSessionState(existingSessionState);
             System.out.println("Checking status of restored session");
@@ -85,14 +85,16 @@ public class UseExistingSession {
         return newSession;
     }
 
-    
+
     /**
      * Restore the existing WebIServerSession utilizing a sessionState which is commonly used in ESMs and can also be used in URL API, Task API, etc.
+     * Example implementation of restoreState can be seen here:
+     * https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/projects/WebSDK/Content/topics/sso/SSO_SSOSample_ESMCodeExpl.htm
+     * 
      * @param sessionState
      * @return
      */
     public static WebIServerSession restoreSessionState(String sessionState) {
-        // https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/projects/WebSDK/Content/topics/sso/SSO_SSOSample_ESMCodeExpl.htm
         WebIServerSession restoredSession = WebObjectsFactory.getInstance().getIServerSession();
         restoredSession.restoreState(sessionState);
         return restoredSession;
