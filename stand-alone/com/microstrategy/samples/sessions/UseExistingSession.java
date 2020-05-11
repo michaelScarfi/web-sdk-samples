@@ -4,7 +4,7 @@ import com.microstrategy.web.objects.WebIServerSession;
 import com.microstrategy.web.objects.WebObjectsException;
 import com.microstrategy.web.objects.WebObjectsFactory;
 
-public class SetExistingSession {
+public class UseExistingSession {
     private static String DEFAULT_SERVER = "APS-TSIEBLER-VM";
     private static String DEFAULT_PROJECT = "MicroStrategy Tutorial";
     private static String DEFAULT_USERNAME = "Administrator";
