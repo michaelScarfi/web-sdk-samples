@@ -40,16 +40,11 @@ public class IdentityToken {
 		// Creating new session.
 		System.out.println("Restoring session from identity token: \n");
 		WebIServerSession restoredSession = restoreWebSessionFromIdentityToken(identityToken);
-
 		try {
-
 			System.out.println("Session created: \n" + restoredSession.getSessionID());
-
 		} catch (WebObjectsException e) {
-
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
