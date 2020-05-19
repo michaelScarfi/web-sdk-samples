@@ -14,10 +14,6 @@ public class IdentityToken {
 	private static String DEFAULT_USERNAME = "Administrator";
 	private static String DEFAULT_PASSWORD = "";
 
-	// Secret Key to generate session.
-	// private static String IDENTITY_TOKEN_SECRET_KEY =
-	// "ThisIsSampleIdentityTokenSecretKey";
-
 	public static void main(String[] args) {
 
 		// Setup the secret key
