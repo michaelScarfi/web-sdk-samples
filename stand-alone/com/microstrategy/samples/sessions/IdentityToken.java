@@ -1,6 +1,5 @@
 package com.microstrategy.samples.sessions;
 
-import com.microstrategy.samples.sessions.SessionManager;
 import com.microstrategy.utils.serialization.EnumWebPersistableState;
 import com.microstrategy.web.objects.WebIServerSession;
 import com.microstrategy.web.objects.WebObjectsException;
@@ -31,16 +30,11 @@ public class IdentityToken {
 		// Create identity token
 		System.out.println("\nCreating identity token.\n");
 		String identityToken = null;
-
 		try {
-
 			identityToken = createIdentityTokenFromSession(iServerSession);
 			System.out.println(identityToken + "\n");
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
 
 		// Creating new session.
@@ -62,7 +56,7 @@ public class IdentityToken {
 	 * Create identityToken from an existing session.
 	 * 
 	 * @param iServerSession
-	 * @return
+	 * @return idToken as String
 	 */
 	public static String createIdentityTokenFromSession(WebIServerSession iServerSession) {
 		String idToken = null;
@@ -79,7 +73,7 @@ public class IdentityToken {
 	 * Restore session from existing identity token
 	 * 
 	 * @param identityToken
-	 * @return
+	 * @return WebIServerSession prepared using identityToken
 	 */
 	public static WebIServerSession restoreWebSessionFromIdentityToken(String identityToken) {
 		WebObjectsFactory factory = null;
@@ -95,13 +89,19 @@ public class IdentityToken {
 	}
 
 	/**
-	 * Sets up the secret key in preferences. Since this is a Standalone class the
-	 * preferences need to be set up programatically. In Web user interface this is
-	 * done following steps in link below.
+	 * MicroStrategy Web reads a Secret Key from ConfigOverrides.properties file
+	 * located under 'WEB-INF/classes/config' directory and Stores it in
+	 * PreferencesMgr System Default Preferences store.
+	 * 
+	 * Since this is a Standalone class the preferences need to be set up
+	 * programatically. This method sets up the secret key in preferences. In Web
+	 * user interface this is done following steps in link below.
 	 * 
 	 * How to Enable Seamless Login Between Web, Library, and Workstation
 	 * https://www2.microstrategy.com/producthelp/current/Library/en-us/Content/
 	 * enable_seamless_login_web_library.htm
+	 * 
+	 * 
 	 */
 	public static void setUpSecretKeyPreferences() {
 		String secretKey = "thisisthesecretkey";
