@@ -37,8 +37,8 @@ public class ProjectSettings {
 		 */
 
 		// Project's setting to modify
-		int projectSetting = EnumDSSXMLServerProjectSettingID.DssXmlServerProjectMaxResultRowCount;
-		String settingNewValue = "14000";
+		int projectSettingKey = EnumDSSXMLServerProjectSettingID.DssXmlServerProjectMaxResultRowCount;
+		String settingNewValue = "15000";
 
 		WebObjectsFactory factory = session.getFactory();
 		WebObjectSource webObjectSource = factory.getObjectSource();
@@ -46,7 +46,7 @@ public class ProjectSettings {
 			WebServerDef serverDef = UpdateServerDefinitionSettings.getServerDefForCurrentSession(webObjectSource);
 
 			// Setting new value for the setting.
-			SetNewProjectSetting(serverDef, projectSetting, settingNewValue);
+			SetNewProjectSetting(serverDef, projectName, projectSettingKey, settingNewValue);
 
 			// Important: need to save setting using the ObjectSource object.
 			webObjectSource.save(serverDef);
@@ -58,9 +58,11 @@ public class ProjectSettings {
 
 	}
 
-	public static void SetNewProjectSetting(WebServerDef serverDef, int projectSetting, String newValue) {
+	public static void SetNewProjectSetting(WebServerDef serverDef, String projectName, int projectSetting,
+	    String newValue) {
 		WebProjectReferences webProjectReferences = serverDef.getProjectReferences();
-		WebProjectReference webProjectReference = webProjectReferences.get(1);
+
+		WebProjectReference webProjectReference = getProjectReferenceByName(webProjectReferences, projectName);
 		WebProjectSettings webProjectSettings = webProjectReference.getProjectSettings();
 		WebProjectSetting webProjectSetting = webProjectSettings.get(projectSetting);
 		System.out.println("Current value [" + webProjectSetting.getDataType() + "]: " + webProjectSetting.getValue());
@@ -74,4 +76,23 @@ public class ProjectSettings {
 		webProjectSetting.setValue(newValue);
 		System.out.println("New value [" + webProjectSetting.getDataType() + "]:" + webProjectSetting.getValue());
 	}
+
+	// Return a project reference given the project's name.
+	public static WebProjectReference getProjectReferenceByName(WebProjectReferences webProjectReferences,
+	    String projectName) {
+		WebProjectReference matchProjectReference = null;
+		for (int index = 0; index <= webProjectReferences.size() - 1; index++) {
+			if (webProjectReferences.get(index).getName().contentEquals(projectName)) {
+				matchProjectReference = webProjectReferences.get(index);
+				break;
+			}
+		}
+		if (matchProjectReference != null) {
+			return matchProjectReference;
+		} else {
+			throw new NullPointerException("No matching project name. method: getProjectReferenceByName()");
+		}
+
+	}
+
 }
