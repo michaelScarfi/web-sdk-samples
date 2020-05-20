@@ -1,4 +1,4 @@
-package com.microstrategy.samples.projects;
+package com.microstrategy.samples.settings;
 
 import com.microstrategy.samples.serverconfiguration.UpdateServerDefinitionSettings;
 import com.microstrategy.samples.sessions.SessionManager;
