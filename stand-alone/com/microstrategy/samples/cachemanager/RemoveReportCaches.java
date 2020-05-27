@@ -45,16 +45,13 @@ public class RemoveReportCaches {
 		System.out.println("Deleting cache for report: " + reportID);
 		deleteReportCaches(iServerSession, reportID);
 		System.out.println("Cache deleted.");
-
 	}
 
 	// Delete caches for report identified by reportID
 	public static void deleteReportCaches(WebIServerSession iServerSession, String reportID) {
 		int monitorType = EnumWebMonitorType.WebMonitorTypeCache;
 		int cacheInfo = EnumDSSXMLCacheInfo.DssXmlCacheInfoReportId;
-
 		removeCachesFromObject(iServerSession, reportID, monitorType, cacheInfo);
-
 	}
 
 	// Retrieve report caches
@@ -78,9 +75,7 @@ public class RemoveReportCaches {
 		} catch (WebObjectsAdminException | WebObjectsException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-
 		return projectCaches;
-
 	}
 
 	// Generic method to remove caches for any object determined by objectID.
@@ -100,6 +95,5 @@ public class RemoveReportCaches {
 		} catch (WebObjectsAdminException | MonitorManipulationException | WebObjectsException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-
 	}
 }
