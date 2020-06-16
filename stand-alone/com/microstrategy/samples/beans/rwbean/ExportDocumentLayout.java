@@ -61,7 +61,7 @@ public class ExportDocumentLayout {
     String layoutToExportKey = null;
     try {
 		
-	  rwInstance = rwb.getRWInstance();
+      rwInstance = rwb.getRWInstance();
 
       RWDefinition rwDefinition = rwInstance.getDefinition();
 
@@ -93,18 +93,19 @@ public class ExportDocumentLayout {
 
 
   public static String getLayoutKeyFromName(RWDefinition rwDefinition, String layoutName) {
-	String layoutKey = null;
-	String iterationName = null;
-	int numberOfLayouts = rwDefinition.getLayoutCount();
+    String layoutKey = null;
+    String iterationName = null;
+    int numberOfLayouts = rwDefinition.getLayoutCount();
 	
-	for (int index = 0; index <= numberOfLayouts; index++) {
-		iterationName = rwDefinition.getLayout(index).getName();
-		layoutKey = rwDefinition.getLayout(index).getKey();
-		if (layoutName.equalsIgnoreCase(iterationName)) {
-			break;
-		}
-	}
-	return layoutKey;
+    for (int index = 0; index <= numberOfLayouts; index++) {
+      iterationName = rwDefinition.getLayout(index).getName();
+      layoutKey = rwDefinition.getLayout(index).getKey();
+      if (layoutName.equalsIgnoreCase(iterationName)) {
+        break;
+      }
+    }
+    
+    return layoutKey;
   }
 
 }
