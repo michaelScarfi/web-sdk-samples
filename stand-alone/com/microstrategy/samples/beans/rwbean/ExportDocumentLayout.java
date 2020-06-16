@@ -86,10 +86,10 @@ public class ExportDocumentLayout {
       e.printStackTrace();
     }
 	
-    // return rwInstance.getExportData();
     return rwInstanceToExport.getExportData();
   }
-
+  
+  //Returns the key for a layout given its name
   public static String getLayoutKeyFromName(RWDefinition rwDefinition, String layoutName) {
     String layoutKey = null;
     String iterationName = null;
