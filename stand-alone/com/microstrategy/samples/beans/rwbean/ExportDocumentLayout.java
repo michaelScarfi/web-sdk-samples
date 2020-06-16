@@ -34,22 +34,22 @@ public class ExportDocumentLayout {
     String layoutName = "Layout 4";
     
 	try {
-		byte[] exportLayoutResults = exportDocumentLayoutToPDF(documentID, session, layoutName);
+	  byte[] exportLayoutResults = exportDocumentLayoutToPDF(documentID, session, layoutName);
 		
-		//Saving export to file.
-		FileHelper.saveByteArrayToFile(exportLayoutResults, pathToSavePDFFile);
+	  //Saving export to file.
+	  FileHelper.saveByteArrayToFile(exportLayoutResults, pathToSavePDFFile);
 		
-		System.out.println("Files saved to: " + pathToSavePDFFile);
+	  System.out.println("Files saved to: " + pathToSavePDFFile);
 	} catch (WebObjectsException e) {
-		e.printStackTrace();
+	  e.printStackTrace();
 	}
   }
 	
 	
   public static byte[] exportDocumentLayoutToPDF(String documentID, WebIServerSession session, String layoutName ) throws WebObjectsException {
-	System.out.println("Exporting layout.");
+    System.out.println("Exporting layout.");
 	
-	RWBean rwb = (RWBean)BeanFactory.getInstance().newBean("RWBean");
+    RWBean rwb = (RWBean)BeanFactory.getInstance().newBean("RWBean");
 
     // ID of the object we wish to execute
     rwb.setObjectID(documentID);
@@ -59,24 +59,24 @@ public class ExportDocumentLayout {
     RWInstance rwInstance = null;
     RWInstance rwInstanceToExport = null;
     String layoutToExportKey = null;
-	try {
+    try {
 		
 	  rwInstance = rwb.getRWInstance();
 
-	  RWDefinition rwDefinition = rwInstance.getDefinition();
+      RWDefinition rwDefinition = rwInstance.getDefinition();
 
-	  // Get layout key from layout name.
-	  layoutToExportKey = getLayoutKeyFromName(rwDefinition, layoutName);
-	
-	  RWManipulation rwManipulation = rwInstance.getRWManipulator(true);
-	  rwInstanceToExport = rwManipulation.setCurrentLayout(layoutToExportKey);
-    
-	  // set execution mode to PDF export
+      // Get layout key from layout name.
+      layoutToExportKey = getLayoutKeyFromName(rwDefinition, layoutName);
+
+      RWManipulation rwManipulation = rwInstance.getRWManipulator(true);
+      rwInstanceToExport = rwManipulation.setCurrentLayout(layoutToExportKey);
+
+      // set execution mode to PDF export
       rwb.setExecutionMode(EnumRWExecutionModes.RW_MODE_PDF);
-    
+
       RWExportSettings exportSettings = rwInstance.getExportSettings();
       exportSettings.setMode(EnumRWExportModes.RW_EXPORT_CURRENT_LAYOUT);
-    
+
       // Switch the current layout.
       rwInstanceToExport.setCurrentLayoutKey(layoutToExportKey);
       rwInstanceToExport.setAsync(false);
