@@ -84,7 +84,7 @@ public class ExportDocumentLayout {
 	
     } catch (WebBeanException | WebObjectsException e) {
       e.printStackTrace();
-	}
+    }
 	
     // return rwInstance.getExportData();
     return rwInstanceToExport.getExportData();
@@ -102,7 +102,6 @@ public class ExportDocumentLayout {
         break;
       }
     }
-    
     return layoutKey;
   }
 
