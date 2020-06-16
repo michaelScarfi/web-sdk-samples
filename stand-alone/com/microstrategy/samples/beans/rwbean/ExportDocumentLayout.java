@@ -33,16 +33,16 @@ public class ExportDocumentLayout {
     // Layout to export.
     String layoutName = "Layout 4";
     
-	try {
-	  byte[] exportLayoutResults = exportDocumentLayoutToPDF(documentID, session, layoutName);
+    try {
+      byte[] exportLayoutResults = exportDocumentLayoutToPDF(documentID, session, layoutName);
+	
+      //Saving export to file.
+      FileHelper.saveByteArrayToFile(exportLayoutResults, pathToSavePDFFile);
 		
-	  //Saving export to file.
-	  FileHelper.saveByteArrayToFile(exportLayoutResults, pathToSavePDFFile);
-		
-	  System.out.println("Files saved to: " + pathToSavePDFFile);
-	} catch (WebObjectsException e) {
-	  e.printStackTrace();
-	}
+      System.out.println("Files saved to: " + pathToSavePDFFile);
+    } catch (WebObjectsException e) {
+      e.printStackTrace();
+    }
   }
 	
 	
@@ -83,14 +83,12 @@ public class ExportDocumentLayout {
       rwInstanceToExport.pollStatus();
 	
 	} catch (WebBeanException | WebObjectsException e) {
-	  e.printStackTrace();
+      e.printStackTrace();
 	}
 	
     // return rwInstance.getExportData();
     return rwInstanceToExport.getExportData();
-
   }
-
 
   public static String getLayoutKeyFromName(RWDefinition rwDefinition, String layoutName) {
     String layoutKey = null;
