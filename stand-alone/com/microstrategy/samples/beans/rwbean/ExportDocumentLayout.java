@@ -15,10 +15,10 @@ import com.microstrategy.web.objects.rw.RWInstance;
 import com.microstrategy.web.objects.rw.RWManipulation;
 
 public class ExportDocumentLayout {
-	static final String ISERVERNAME = "10.23.1.124";
-	static final String PROJECT_NAME = "MicroStrategy Tutorial";
-	static final String USER_NAME = "Administrator";
-	static final String PASSWORD = "";
+  static final String ISERVERNAME = "10.23.1.124";
+  static final String PROJECT_NAME = "MicroStrategy Tutorial";
+  static final String USER_NAME = "Administrator";
+  static final String PASSWORD = "";
 	
   public static void main(String[] args) {
 	// Create our I-Server Session
@@ -61,32 +61,31 @@ public class ExportDocumentLayout {
     String layoutToExportKey = null;
 	try {
 		
-		rwInstance = rwb.getRWInstance();
+	  rwInstance = rwb.getRWInstance();
 
-		RWDefinition rwDefinition = rwInstance.getDefinition();
+	  RWDefinition rwDefinition = rwInstance.getDefinition();
 
-		// Get layout key from layout name.
-		layoutToExportKey = getLayoutKeyFromName(rwDefinition, layoutName);
-		
-		RWManipulation rwManipulation = rwInstance.getRWManipulator(true);
-		rwInstanceToExport = rwManipulation.setCurrentLayout(layoutToExportKey);
-	    
-		// set execution mode to PDF export
-	    rwb.setExecutionMode(EnumRWExecutionModes.RW_MODE_PDF);
-	    
-	    RWExportSettings exportSettings = rwInstance.getExportSettings();
-	    exportSettings.setMode(EnumRWExportModes.RW_EXPORT_CURRENT_LAYOUT);
-	    
-	    // Switch the current layout.
-	    rwInstanceToExport.setCurrentLayoutKey(layoutToExportKey);
-	    rwInstanceToExport.setAsync(false);
-	    rwInstanceToExport.pollStatus();
-		
-		} catch (WebBeanException | WebObjectsException e) {
-		e.printStackTrace();
+	  // Get layout key from layout name.
+	  layoutToExportKey = getLayoutKeyFromName(rwDefinition, layoutName);
+	
+	  RWManipulation rwManipulation = rwInstance.getRWManipulator(true);
+	  rwInstanceToExport = rwManipulation.setCurrentLayout(layoutToExportKey);
+    
+	  // set execution mode to PDF export
+      rwb.setExecutionMode(EnumRWExecutionModes.RW_MODE_PDF);
+    
+      RWExportSettings exportSettings = rwInstance.getExportSettings();
+      exportSettings.setMode(EnumRWExportModes.RW_EXPORT_CURRENT_LAYOUT);
+    
+      // Switch the current layout.
+      rwInstanceToExport.setCurrentLayoutKey(layoutToExportKey);
+      rwInstanceToExport.setAsync(false);
+      rwInstanceToExport.pollStatus();
+	
+	} catch (WebBeanException | WebObjectsException e) {
+	  e.printStackTrace();
 	}
 	
-    
     // return rwInstance.getExportData();
     return rwInstanceToExport.getExportData();
 
