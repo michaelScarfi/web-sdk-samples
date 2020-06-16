@@ -82,7 +82,7 @@ public class ExportDocumentLayout {
       rwInstanceToExport.setAsync(false);
       rwInstanceToExport.pollStatus();
 	
-	} catch (WebBeanException | WebObjectsException e) {
+    } catch (WebBeanException | WebObjectsException e) {
       e.printStackTrace();
 	}
 	
