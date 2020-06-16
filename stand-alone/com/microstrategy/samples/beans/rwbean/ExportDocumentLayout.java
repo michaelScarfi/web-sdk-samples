@@ -15,25 +15,23 @@ import com.microstrategy.web.objects.rw.RWInstance;
 import com.microstrategy.web.objects.rw.RWManipulation;
 
 public class ExportDocumentLayout {
-
+	static final String ISERVERNAME = "10.23.1.124";
+	static final String PROJECT_NAME = "MicroStrategy Tutorial";
+	static final String USER_NAME = "Administrator";
+	static final String PASSWORD = "";
+	
   public static void main(String[] args) {
-	// Connectivity for the intelligence server
-    String intelligenceServerName = "10.23.5.32";
-    String projectName = "MicroStrategy Tutorial";
-    String microstrategyUsername = "Administrator";
-    String microstrategyPassword = "";
+	// Create our I-Server Session
+    WebIServerSession session = SessionManager.getSessionWithDetails(ISERVERNAME, PROJECT_NAME, USER_NAME, PASSWORD);
     
-    // Create our I-Server Session
-    WebIServerSession session = SessionManager.getSessionWithDetails(intelligenceServerName, projectName, microstrategyUsername, microstrategyPassword);
+    // Document ID
+    String documentID = "769B8AB6471B182B44CB7089ECC2F607";
     
-    //Document ID
-    String documentID = "6FB9F99C4FCF116AC88C8F927F15D2CC";
+    // Path to save pdf file needs to be provided via "pathToSavePDFFile" var.
+    String pathToSavePDFFile = "/Users/mpastrana/trabajos/testlayout.pdf";
     
-    //Path to save pdf file needs to be provided via "pathToSavePDFFile" var.
-    String pathToSavePDFFile = "< path/to/save/pdf/file >";
-    
-    //Layout to export.
-    String layoutName = "Layout 01";
+    // Layout to export.
+    String layoutName = "Layout 4";
     
 	try {
 		byte[] exportLayoutResults = exportDocumentLayoutToPDF(documentID, session, layoutName);
@@ -67,7 +65,7 @@ public class ExportDocumentLayout {
 
 		RWDefinition rwDefinition = rwInstance.getDefinition();
 
-		//Get layout key from layout name.
+		// Get layout key from layout name.
 		layoutToExportKey = getLayoutKeyFromName(rwDefinition, layoutName);
 		
 		RWManipulation rwManipulation = rwInstance.getRWManipulator(true);
@@ -79,7 +77,7 @@ public class ExportDocumentLayout {
 	    RWExportSettings exportSettings = rwInstance.getExportSettings();
 	    exportSettings.setMode(EnumRWExportModes.RW_EXPORT_CURRENT_LAYOUT);
 	    
-	    //Switch the current layout.
+	    // Switch the current layout.
 	    rwInstanceToExport.setCurrentLayoutKey(layoutToExportKey);
 	    rwInstanceToExport.setAsync(false);
 	    rwInstanceToExport.pollStatus();
@@ -89,7 +87,7 @@ public class ExportDocumentLayout {
 	}
 	
     
-    //return rwInstance.getExportData();
+    // return rwInstance.getExportData();
     return rwInstanceToExport.getExportData();
 
   }
@@ -98,16 +96,15 @@ public class ExportDocumentLayout {
   public static String getLayoutKeyFromName(RWDefinition rwDefinition, String layoutName) {
 	String layoutKey = null;
 	String iterationName = null;
-	int layoutIteration = 0;
 	int numberOfLayouts = rwDefinition.getLayoutCount();
 	
-	do {
-		iterationName = rwDefinition.getLayout(layoutIteration).getName();
-		layoutKey = rwDefinition.getLayout(layoutIteration).getKey();
-		layoutIteration++;
+	for (int index = 0; index <= numberOfLayouts; index++) {
+		iterationName = rwDefinition.getLayout(index).getName();
+		layoutKey = rwDefinition.getLayout(index).getKey();
+		if (layoutName.equalsIgnoreCase(iterationName)) {
+			break;
+		}
 	}
-	while( !(layoutName.equals(iterationName)) && layoutIteration < numberOfLayouts);
-	
 	return layoutKey;
   }
 
