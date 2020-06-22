@@ -22,10 +22,10 @@ public class ObjectSearchByName {
 
 	public static void main(String[] args) {
 	    // Connectivity for the intelligence server
-	    final String intelligenceServerName = "sup-w-001643.labs.microstrategy.com";
-	    final String projectName = "MicroStrategy Tutorial";
-	    final String microstrategyUsername = "Administrator";
-	    final String microstrategyPassword = "";
+	    final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
+	    final String PROJECT_NAME = "MicroStrategy Tutorial";
+	    final String MICROSTRATEGY_USERNAME = "Administrator";
+	    final String MICROSTRATEGY_PASSWORD = "";
 	    
 	    /**
 	     * This determines the type of object for the search, currently it is set to attribute
@@ -38,7 +38,7 @@ public class ObjectSearchByName {
 	    String searchName = "test";
 	    
 	    // Create our I-Server Session
-	    WebIServerSession session = SessionManager.getSessionWithDetails(intelligenceServerName, projectName, microstrategyUsername, microstrategyPassword);
+	    WebIServerSession session = SessionManager.getSessionWithDetails(INTELLIGENCE_SERVER_NAME, PROJECT_NAME, MICROSTRATEGY_USERNAME, MICROSTRATEGY_PASSWORD);
 	    
 	    // Find User and output search results
 	    String[] objectIDs = searchObject(session, searchName, objectType);
@@ -107,7 +107,6 @@ public class ObjectSearchByName {
 		}
 		
 		return objectIDs;
-		
 	}
 
 }
