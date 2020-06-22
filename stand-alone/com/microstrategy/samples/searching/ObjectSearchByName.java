@@ -32,7 +32,7 @@ public class ObjectSearchByName {
 	     * Changing DSSXML will allow you to choose what type of object the search will return
 	     * Values for this can be found at https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/ReferenceFiles/reference/com/microstrategy/webapi/EnumDSSXMLObjectSubTypes.html
 	     */
-	    final int objectType = EnumDSSXMLObjectSubTypes.DssXmlSubTypeAttribute;
+	    int objectType = EnumDSSXMLObjectSubTypes.DssXmlSubTypeAttribute;
 	    
 	    // Object Name for search
 	    String searchName = "test";
