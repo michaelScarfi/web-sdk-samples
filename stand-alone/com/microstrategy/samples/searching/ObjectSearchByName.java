@@ -28,10 +28,10 @@ public class ObjectSearchByName {
 	    final String MICROSTRATEGY_PASSWORD = "";
 	    
 	    /**
-		 * This determines the type of object for the search, currently it is set to attribute
-		 * Changing DSSXML will allow you to choose what type of object the search will return
-		 * Values for this can be found at https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/ReferenceFiles/reference/com/microstrategy/webapi/EnumDSSXMLObjectSubTypes.html
-		 */
+	      * This determines the type of object for the search, currently it is set to attribute
+	      * Changing DSSXML will allow you to choose what type of object the search will return
+	      * Values for this can be found at https://lw.microstrategy.com/msdz/MSDL/GARelease_Current/docs/ReferenceFiles/reference/com/microstrategy/webapi/EnumDSSXMLObjectSubTypes.html
+	      */
 	    final int OBJECT_TYPE = EnumDSSXMLObjectSubTypes.DssXmlSubTypeAttribute;
 	    
 	    // Object Name for search
