@@ -41,7 +41,7 @@ public class ObjectSearchByName {
 	    WebIServerSession session = SessionManager.getSessionWithDetails(INTELLIGENCE_SERVER_NAME, PROJECT_NAME, MICROSTRATEGY_USERNAME, MICROSTRATEGY_PASSWORD);
 	    
 	    // Find User and output search results
-	    WebObjectInfo[] objects = searchObject(session, searchName, OBJECT_TYPE);
+	    WebObjectInfo[] objects = searchObjectsOfTypeByName(session, searchName, OBJECT_TYPE);
 	    
 	    if(objects == null) {
 	    	System.out.println("No objects found.");
@@ -63,7 +63,7 @@ public class ObjectSearchByName {
 	 * @param objectType int containing the int value of the object type for the search
 	 * @return WebObjectInfo[] containing the objects, if none are found the string will be of value null
 	 */
-	private static WebObjectInfo[] searchObject(WebIServerSession session, String searchName, int objectType) {
+	private static WebObjectInfo[] searchObjectsOfTypeByName(WebIServerSession session, String searchName, int objectType) {
 		//Create and populate Factory
 		WebObjectSource webObjectSource = session.getFactory().getObjectSource();
 		
