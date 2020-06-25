@@ -4,10 +4,6 @@ package com.microstrategy.samples.searching;
  * SDK sample
  * Purpose: to find a user's ID using their name
  * 
- * Notes: The function searchUser can be used as a standalone function.
- * 
- * Based off of KB13809 and modyified to return userID and enhanced for better functionality
- * 
  * Created by: Michael Scarfi
  * Creation date: 5/29/2020
  */
@@ -28,20 +24,24 @@ public class UserSearchByName {
 	public static void main(String[] args) {
 		
 		// Connectivity for the intelligence server
-	    final String intelligenceServerName = "sup-w-001643.labs.microstrategy.com";
-	    final String projectName = "MicroStrategy Tutorial";
-	    final String microstrategyUsername = "Administrator";
-	    final String microstrategyPassword = "";
+	    final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
+	    final String PROJECT_NAME = "MicroStrategy Tutorial";
+	    final String MICROSTRATEGY_USERNAME = "Administrator";
+	    final String MICROSTRATEGY_PASSWORD = "";
 	    
 	    // User Name for search
-	    final String searchName = "administrator";
+	    String searchName = "administrator";
 	    
 	    // Create our I-Server Session
-	    final WebIServerSession session = SessionManager.getSessionWithDetails(intelligenceServerName, projectName, microstrategyUsername, microstrategyPassword);
+	    WebIServerSession session = SessionManager.getSessionWithDetails(INTELLIGENCE_SERVER_NAME, PROJECT_NAME, MICROSTRATEGY_USERNAME, MICROSTRATEGY_PASSWORD);
 	    
-	    // Find User and output search results
-	    String UserID = searchUser(session, searchName);
-	    System.out.println("User ID: " + UserID);
+	    // Find User and output users ID
+	    WebUser user = searchUser(session, searchName);
+	    if (user == null) {
+	    	System.out.println("User not found");
+	    }else {
+	    	System.out.println("User ID: " + user.getID());
+	    }
 	    
 	}
 	 
@@ -50,18 +50,15 @@ public class UserSearchByName {
 	 * 
 	 * @param session Object of type WebIServerSession
 	 * @param searchName String containing the search String
-	 * @return User ID if object is found, "User not found" if the user is not found
+	 * @return WebUser object if the user is found, WebUser object with value of null if the user is not found
 	 */
-	private static String searchUser(WebIServerSession session, String searchName) {
+	private static WebUser searchUser(WebIServerSession session, String searchName) {
 		//Create and populate Factory
 		WebObjectSource webObjectSource = session.getFactory().getObjectSource();
 		
 		//Create blank user and the search object
 		WebUser user = null;
 		WebSearch search = webObjectSource.getNewSearchObject();
-		
-		//Create empty String to store search results
-		String userID = null;
 		
 		try {
 			//Populate search parameters
@@ -85,7 +82,7 @@ public class UserSearchByName {
 			if (f.size() > 0) {
 				user = (WebUser) f.get(0);
 				user.populate();
-				userID = user.getID();
+				return user;
 			}
 			
 		} catch (Exception e) {
@@ -93,14 +90,8 @@ public class UserSearchByName {
 			System.out.println(e.getMessage());
 		}
 		
-		//Checking to see if user was found
-		if(userID != null) {
-			//Returning User ID if the object was found
-			return userID;
-		}else {
-			//Returning error message if the User is not found.
-			return "User not found";
-		}
+		//returning null value if user not found;
+		return user;
 	}
 	    
 }
