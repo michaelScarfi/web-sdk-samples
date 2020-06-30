@@ -27,7 +27,7 @@ public class SecurityFilterCreation {
 
 	public static void main(String[] args) {	
 		// Connectivity for the intelligence server
-	    	final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
+	    	final String INTELLIGENCE_SERVER_NAME = "localhost";
 	    	final String PROJECT_NAME = "MicroStrategy Tutorial";
 		final String MICROSTRATEGY_USERNAME = "Administrator";
 		final String MICROSTRATEGY_PASSWORD = "";
@@ -53,7 +53,7 @@ public class SecurityFilterCreation {
 	public static void createSecurityFilter(WebIServerSession session, String expression, String filterName){
 		// Create our Object Source, filter, and expression
 		WebObjectSource webObjectSource = session.getFactory().getObjectSource();
-	    	WebMDSecurityFilter wMDFilter = (WebMDSecurityFilter) webObjectSource.getNewObject( EnumDSSXMLObjectTypes.DssXmlTypeMDSecurityFilter );
+	    	WebMDSecurityFilter wMDFilter = (WebMDSecurityFilter) webObjectSource.getNewObject(EnumDSSXMLObjectTypes.DssXmlTypeMDSecurityFilter );
 		WebExpression wExpr = wMDFilter.getExpression();
 		
 		try {
