@@ -27,16 +27,16 @@ public class SecurityFilterCreation {
 
 	public static void main(String[] args) {	
 		// Connectivity for the intelligence server
-	    final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
-	    final String PROJECT_NAME = "MicroStrategy Tutorial";
-	    final String MICROSTRATEGY_USERNAME = "Administrator";
+	    	final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
+	    	final String PROJECT_NAME = "MicroStrategy Tutorial";
+		final String MICROSTRATEGY_USERNAME = "Administrator";
 		final String MICROSTRATEGY_PASSWORD = "";
 		
 		// Filter information
-        String filterName = "test filter";
+        	String filterName = "test filter";
 		String expression = "[Employee Age]@ID=23";
 
-	    // Create our I-Server Session
+	    	// Create our I-Server Session
 		WebIServerSession session = SessionManager.getSessionWithDetails(INTELLIGENCE_SERVER_NAME, PROJECT_NAME, MICROSTRATEGY_USERNAME, MICROSTRATEGY_PASSWORD);
 		
 		// Execute the method to create the filter object
@@ -53,19 +53,19 @@ public class SecurityFilterCreation {
 	public static void createSecurityFilter(WebIServerSession session, String expression, String filterName){
 		// Create our Object Source, filter, and expression
 		WebObjectSource webObjectSource = session.getFactory().getObjectSource();
-	    WebMDSecurityFilter wMDFilter = (WebMDSecurityFilter) webObjectSource.getNewObject( EnumDSSXMLObjectTypes.DssXmlTypeMDSecurityFilter );
+	    	WebMDSecurityFilter wMDFilter = (WebMDSecurityFilter) webObjectSource.getNewObject( EnumDSSXMLObjectTypes.DssXmlTypeMDSecurityFilter );
 		WebExpression wExpr = wMDFilter.getExpression();
 		
 		try {
 			// Create folder object that will allow us to save the filter in the Security filter folder
-            String folderID = webObjectSource.getFolderID(EnumDSSXMLFolderNames.DssXmlFolderNameSystemMDSecurityFilters);
-            WebFolder folder = (WebFolder) webObjectSource.getObject(folderID, EnumDSSXMLObjectTypes.DssXmlTypeFolder);
+            		String folderID = webObjectSource.getFolderID(EnumDSSXMLFolderNames.DssXmlFolderNameSystemMDSecurityFilters);
+            		WebFolder folder = (WebFolder) webObjectSource.getObject(folderID, EnumDSSXMLObjectTypes.DssXmlTypeFolder);
 
 			// Populate our Filter's expression
 			wExpr.populate(expression);
 			
 			// Save the new Security Filter
-            webObjectSource.save(wMDFilter, filterName, folder);
+            		webObjectSource.save(wMDFilter, filterName, folder);
 		} catch (WebObjectsException e) {
 			e.printStackTrace();
 		} 
