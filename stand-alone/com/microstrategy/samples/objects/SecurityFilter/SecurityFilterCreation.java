@@ -57,7 +57,7 @@ public class SecurityFilterCreation {
 		WebExpression wExpr = wMDFilter.getExpression();
 		
 		try {
-			// Create folder object that will allow us to save the filter in the Security filter folder
+			// Create WebFolder object that will allow us to save the filter in the Security filter folder
             		String folderID = webObjectSource.getFolderID(EnumDSSXMLFolderNames.DssXmlFolderNameSystemMDSecurityFilters);
             		WebFolder folder = (WebFolder) webObjectSource.getObject(folderID, EnumDSSXMLObjectTypes.DssXmlTypeFolder);
 
