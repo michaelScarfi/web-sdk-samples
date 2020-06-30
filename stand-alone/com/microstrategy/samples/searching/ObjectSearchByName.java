@@ -21,7 +21,7 @@ import com.microstrategy.web.objects.*;
 public class ObjectSearchByName {
 
 	public static void main(String[] args) {
-		// Connectivity for the intelligence server
+	    // Connectivity for the intelligence server
 	    final String INTELLIGENCE_SERVER_NAME = "sup-w-001643.labs.microstrategy.com";
 	    final String PROJECT_NAME = "MicroStrategy Tutorial";
 	    final String MICROSTRATEGY_USERNAME = "Administrator";
@@ -45,11 +45,11 @@ public class ObjectSearchByName {
 	    
 	    if(objects == null) {
 	    	System.out.println("No objects found.");
-	    }else {
+	    } else {
 	    	// As multiple objects can have the same name, this iterates through returned values and displays each
-		    for (int i = 0; i < objects.length; i++) {
-		    	System.out.println("Object ID: " + objects[i].getID());
-		    }
+		for (int i = 0; i < objects.length; i++) {
+			System.out.println("Object ID: " + objects[i].getID());
+		}
 	    }
 	    
 	    
